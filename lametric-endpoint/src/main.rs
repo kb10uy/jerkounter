@@ -10,6 +10,7 @@ use log::info;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde_json::to_string as to_json_string;
+use std::env;
 use tide::{http::StatusCode, Error as TideError, Request, Response, Result as TideResult};
 use tissue_rs::{CheckinBuilder, CheckinResponse, IncomingEndpoint};
 
@@ -23,11 +24,12 @@ static RE_INTERVAL: Lazy<Regex> =
 async fn main() -> Result<()> {
     pretty_env_logger::init();
     info!("User-Agent: {}", USER_AGENT);
+    let listen_at = env::var("LISTEN_AT")?;
 
     let mut app = tide::new();
     app.at("/user").get(fetch_user);
     app.at("/checkin").get(send_checkin);
-    app.listen("127.0.0.1:8000").await?;
+    app.listen(listen_at).await?;
 
     Ok(())
 }
