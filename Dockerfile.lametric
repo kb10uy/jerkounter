@@ -1,0 +1,14 @@
+# Build backend
+FROM rust:1.53 AS builder
+WORKDIR /build
+COPY . .
+RUN cargo install --path ./lametric-endpoint
+
+# Runtime
+FROM debian:bullseye-slim
+LABEL maintainer="kb10uy"
+COPY --from=builder /usr/local/cargo/bin/lametric-endpoint /usr/local/bin/lametric-endpoint
+
+EXPOSE 8000
+ENV LISTEN_AT="0.0.0.0:8000"
+CMD ["/usr/local/bin/lametric-endpoint"]
