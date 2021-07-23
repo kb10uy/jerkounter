@@ -16,5 +16,5 @@ jobs:
           username: '${{ secrets.DOCKER_USERNAME }}'
           password: '${{ secrets.DOCKER_PASSWORD }}'
           repository: 'kb10uy/jerkounter-lametric'
-          file: './Dockerfile.lametric'
+          dockerfile: './Dockerfile.lametric'
           tag_with_ref: true
