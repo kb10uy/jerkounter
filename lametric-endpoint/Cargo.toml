@@ -3,14 +3,16 @@ name = "lametric-endpoint"
 version = "0.1.0"
 edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 serde = { version = "1.0.126", features = ["derive"] }
 serde_json = "1.0.64"
 tissue-rs = { git = "https://github.com/kb10uy/tissue-rs" }
-tide = "0.16.0"
 async-std = { version = "1.9.0", features = ["attributes"] }
+tide = "0.16.0"
+surf = "2.2.0"
 log = "0.4.14"
 pretty_env_logger = "0.4.0"
 anyhow = "1.0.42"
+regex = "1.5.4"
+once_cell = "1.8.0"
+chrono = "0.4.19"
