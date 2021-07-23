@@ -8,7 +8,7 @@ RUN cargo install --path ./lametric-endpoint
 FROM debian:bullseye-slim
 LABEL maintainer="kb10uy"
 COPY --from=builder /usr/local/cargo/bin/lametric-endpoint /usr/local/bin/lametric-endpoint
-RUN apt update && apt install curl
+RUN apt update && apt install -y curl
 
 EXPOSE 8000
 ENV LISTEN_AT="0.0.0.0:8000"
