@@ -58,8 +58,8 @@ async fn fetch_user(request: Request<()>) -> TideResult {
                 text: format!(
                     "{} 日 {} 時間 {} 分",
                     interval.num_days(),
-                    interval.num_hours(),
-                    interval.num_minutes()
+                    interval.num_hours() % 24,
+                    interval.num_minutes() % 60,
                 ),
             },
         ],
