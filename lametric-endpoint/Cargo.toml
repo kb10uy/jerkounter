@@ -9,7 +9,7 @@ serde_json = "1.0.64"
 tissue-rs = { git = "https://github.com/kb10uy/tissue-rs" }
 async-std = { version = "1.9.0", features = ["attributes"] }
 tide = "0.16.0"
-surf = { version = "2.2.0", default-features = false, features = ["h1-client", "middleware-logger"] }
+surf = { version = "2.2.0", default-features = false, features = ["h1-client-rustls", "middleware-logger"] }
 log = "0.4.14"
 pretty_env_logger = "0.4.0"
 anyhow = "1.0.42"
