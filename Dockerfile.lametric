@@ -1,11 +1,11 @@
 # Build backend
-FROM rust:1.53 AS builder
+FROM rust:1.53-alpine AS builder
 WORKDIR /build
 COPY . .
-RUN cargo install --path ./lametric-endpoint
+RUN cargo install --path ./lametric-endpoint && strip /usr/local/cargo/bin/lametric-endpoint
 
 # Runtime
-FROM debian:bullseye-slim
+FROM alpine:3.13
 LABEL maintainer="kb10uy"
 COPY --from=builder /usr/local/cargo/bin/lametric-endpoint /usr/local/bin/lametric-endpoint
 
