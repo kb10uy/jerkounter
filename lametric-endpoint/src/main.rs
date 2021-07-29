@@ -1,24 +1,20 @@
 mod lametric;
 mod schema;
+mod tissue;
 
 use lametric::{LaMetricFrame, LaMetricResponse, LM_ICON_CLOCK, LM_ICON_SPERM, LM_ICON_TISSUE};
 use schema::AppParameters;
+use tissue::{RE_CHECKINS, RE_INTERVAL, SurfRequester};
 
 use anyhow::Result;
 use chrono::{prelude::*, Duration};
 use log::info;
-use once_cell::sync::Lazy;
-use regex::Regex;
 use serde_json::to_string as to_json_string;
 use std::env;
 use tide::{http::StatusCode, Error as TideError, Request, Response, Result as TideResult};
 use tissue_rs::{CheckinBuilder, CheckinResponse, IncomingEndpoint};
 
 const USER_AGENT: &str = concat!("Jerkounter/LaMetric ", env!("CARGO_PKG_VERSION"));
-static RE_CHECKINS: Lazy<Regex> =
-    Lazy::new(|| Regex::new(r#"通算回数:\s*([\d,]+)\s*回"#).expect("Invalid regex"));
-static RE_INTERVAL: Lazy<Regex> =
-    Lazy::new(|| Regex::new(r#"([\d]+)日\s*([\d]+)時間\s*([\d]+)分経過"#).expect("Invalid regex"));
 
 #[async_std::main]
 async fn main() -> Result<()> {
@@ -74,7 +70,7 @@ async fn send_checkin(request: Request<()>) -> TideResult {
     let query: AppParameters = request.query()?;
 
     info!("Sending checkin to {}", query.name);
-    let tissue = IncomingEndpoint::new(&query.webhook_token);
+    let mut tissue = IncomingEndpoint::new(&query.webhook_token, SurfRequester);
     let mut builder = CheckinBuilder::with_datetime(Local::now());
     builder.note("Sent from LaMetric Time")?;
 
